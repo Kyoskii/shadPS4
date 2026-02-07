@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 shadPS4 Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024-2026 shadPS4 Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -34,9 +34,10 @@
 #define SDL_EVENT_RELOAD_INPUTS SDL_EVENT_USER + 5
 #define SDL_EVENT_MOUSE_TO_JOYSTICK SDL_EVENT_USER + 6
 #define SDL_EVENT_MOUSE_TO_GYRO SDL_EVENT_USER + 7
-#define SDL_EVENT_RDOC_CAPTURE SDL_EVENT_USER + 8
-#define SDL_EVENT_QUIT_DIALOG SDL_EVENT_USER + 9
-#define SDL_EVENT_MOUSE_WHEEL_OFF SDL_EVENT_USER + 10
+#define SDL_EVENT_MOUSE_TO_TOUCHPAD SDL_EVENT_USER + 8
+#define SDL_EVENT_RDOC_CAPTURE SDL_EVENT_USER + 9
+#define SDL_EVENT_QUIT_DIALOG SDL_EVENT_USER + 10
+#define SDL_EVENT_MOUSE_WHEEL_OFF SDL_EVENT_USER + 11
 
 #define LEFTJOYSTICK_HALFMODE 0x00010000
 #define RIGHTJOYSTICK_HALFMODE 0x00020000
@@ -52,7 +53,10 @@
 #define HOTKEY_RELOAD_INPUTS 0xf0000005
 #define HOTKEY_TOGGLE_MOUSE_TO_JOYSTICK 0xf0000006
 #define HOTKEY_TOGGLE_MOUSE_TO_GYRO 0xf0000007
-#define HOTKEY_RENDERDOC 0xf0000008
+#define HOTKEY_TOGGLE_MOUSE_TO_TOUCHPAD 0xf0000008
+#define HOTKEY_RENDERDOC 0xf0000009
+#define HOTKEY_VOLUME_UP 0xf000000a
+#define HOTKEY_VOLUME_DOWN 0xf000000b
 
 #define SDL_UNMAPPED UINT32_MAX - 1
 
@@ -134,6 +138,8 @@ const std::map<std::string, u32> string_to_cbutton_map = {
     {"rpaddle_high", SDL_GAMEPAD_BUTTON_RIGHT_PADDLE1},
     {"rpaddle_low", SDL_GAMEPAD_BUTTON_RIGHT_PADDLE2},
     {"mouse_gyro_roll_mode", MOUSE_GYRO_ROLL_MODE},
+};
+const std::map<std::string, u32> string_to_hotkey_map = {
     {"hotkey_pause", HOTKEY_PAUSE},
     {"hotkey_fullscreen", HOTKEY_FULLSCREEN},
     {"hotkey_show_fps", HOTKEY_SIMPLE_FPS},
@@ -141,7 +147,10 @@ const std::map<std::string, u32> string_to_cbutton_map = {
     {"hotkey_reload_inputs", HOTKEY_RELOAD_INPUTS},
     {"hotkey_toggle_mouse_to_joystick", HOTKEY_TOGGLE_MOUSE_TO_JOYSTICK},
     {"hotkey_toggle_mouse_to_gyro", HOTKEY_TOGGLE_MOUSE_TO_GYRO},
+    {"hotkey_toggle_mouse_to_touchpad", HOTKEY_TOGGLE_MOUSE_TO_TOUCHPAD},
     {"hotkey_renderdoc_capture", HOTKEY_RENDERDOC},
+    {"hotkey_volume_up", HOTKEY_VOLUME_UP},
+    {"hotkey_volume_down", HOTKEY_VOLUME_DOWN},
 };
 
 const std::map<std::string, AxisMapping> string_to_axis_map = {

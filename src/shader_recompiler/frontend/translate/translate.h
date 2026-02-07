@@ -201,6 +201,7 @@ public:
     void V_CVT_F32_F64(const GcnInst& inst);
     void V_CVT_F64_F32(const GcnInst& inst);
     void V_CVT_F32_UBYTE(u32 index, const GcnInst& inst);
+    void V_FLOOR_F64(const GcnInst& inst);
     void V_FRACT_F32(const GcnInst& inst);
     void V_TRUNC_F32(const GcnInst& inst);
     void V_CEIL_F32(const GcnInst& inst);
@@ -218,6 +219,7 @@ public:
     void V_NOT_B32(const GcnInst& inst);
     void V_BFREV_B32(const GcnInst& inst);
     void V_FFBH_U32(const GcnInst& inst);
+    void V_FFBH_I32(const GcnInst& inst);
     void V_FFBL_B32(const GcnInst& inst);
     void V_FREXP_EXP_I32_F64(const GcnInst& inst);
     void V_FREXP_MANT_F64(const GcnInst& inst);
@@ -230,6 +232,7 @@ public:
 
     // VOPC
     void V_CMP_F32(ConditionOp op, bool set_exec, const GcnInst& inst);
+    void V_CMP_F64(ConditionOp op, bool set_exec, const GcnInst& inst);
     void V_CMP_U32(ConditionOp op, bool is_signed, bool set_exec, const GcnInst& inst);
     void V_CMP_U64(ConditionOp op, bool is_signed, bool set_exec, const GcnInst& inst);
     void V_CMP_CLASS_F32(const GcnInst& inst);
@@ -258,6 +261,7 @@ public:
     void V_CVT_PK_I16_I32(const GcnInst& inst);
     void V_CVT_PK_U8_F32(const GcnInst& inst);
     void V_LSHL_B64(const GcnInst& inst);
+    void V_LSHR_B64(const GcnInst& inst);
     void V_ALIGNBIT_B32(const GcnInst& inst);
     void V_ALIGNBYTE_B32(const GcnInst& inst);
     void V_MUL_F64(const GcnInst& inst);

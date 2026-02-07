@@ -46,13 +46,13 @@ static const std::unordered_map<int, std::string> default_title = {
 
 namespace Libraries::SaveData {
 
-fs::path SaveInstance::MakeTitleSavePath(OrbisUserServiceUserId user_id,
+fs::path SaveInstance::MakeTitleSavePath(Libraries::UserService::OrbisUserServiceUserId user_id,
                                          std::string_view game_serial) {
     return Config::GetSaveDataPath() / std::to_string(user_id) / game_serial;
 }
 
-fs::path SaveInstance::MakeDirSavePath(OrbisUserServiceUserId user_id, std::string_view game_serial,
-                                       std::string_view dir_name) {
+fs::path SaveInstance::MakeDirSavePath(Libraries::UserService::OrbisUserServiceUserId user_id,
+                                       std::string_view game_serial, std::string_view dir_name) {
     return Config::GetSaveDataPath() / std::to_string(user_id) / game_serial / dir_name;
 }
 
@@ -89,8 +89,8 @@ void SaveInstance::SetupDefaultParamSFO(PSF& param_sfo, std::string dir_name,
 #undef P
 }
 
-SaveInstance::SaveInstance(int slot_num, OrbisUserServiceUserId user_id, std::string _game_serial,
-                           std::string_view _dir_name, int max_blocks)
+SaveInstance::SaveInstance(int slot_num, Libraries::UserService::OrbisUserServiceUserId user_id,
+                           std::string _game_serial, std::string_view _dir_name, int max_blocks)
     : slot_num(slot_num), user_id(user_id), game_serial(std::move(_game_serial)),
       dir_name(_dir_name),
       max_blocks(std::clamp(max_blocks, OrbisSaveDataBlocksMin2, OrbisSaveDataBlocksMax)) {
@@ -180,7 +180,7 @@ void SaveInstance::SetupAndMount(bool read_only, bool copy_icon, bool ignore_cor
     }
 
     if (!ignore_corrupt && !read_only) {
-        Common::FS::IOFile f(corrupt_file_path, Common::FS::FileAccessMode::Write);
+        Common::FS::IOFile f(corrupt_file_path, Common::FS::FileAccessMode::Create);
         f.Close();
     }
 

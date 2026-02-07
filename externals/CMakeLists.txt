@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2024 shadPS4 Emulator Project
+# SPDX-FileCopyrightText: Copyright 2024-2026 shadPS4 Emulator Project
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 set(BUILD_SHARED_LIBS OFF)
@@ -61,6 +61,18 @@ if (NOT TARGET SDL3::SDL3)
     set(SDL_TEST_LIBRARY OFF)
     set(SDL_PIPEWIRE OFF)
     add_subdirectory(sdl3)
+endif()
+
+# SDL3_mixer
+if (NOT TARGET SDL3_mixer::SDL3_mixer)
+    set(SDLMIXER_FLAC OFF)
+    set(SDLMIXER_OGG OFF)
+    set(SDLMIXER_MOD OFF)
+    set(SDLMIXER_MIDI OFF)
+    set(SDLMIXER_OPUS OFF)
+    set(SDLMIXER_WAVPACK OFF)
+    set(BUILD_SHARED_LIBS OFF)
+    add_subdirectory(sdl3_mixer)
 endif()
 
 # vulkan-headers
@@ -140,7 +152,7 @@ endif()
 # sirit
 add_subdirectory(sirit)
 if (WIN32)
-    target_compile_options(sirit PUBLIC "-Wno-error=unused-command-line-argument")
+    target_compile_options(sirit PRIVATE "-Wno-error=unused-command-line-argument")
 endif()
 
 # half
@@ -192,6 +204,7 @@ add_subdirectory(tracy)
 
 # pugixml
 if (NOT TARGET pugixml::pugixml)
+    option(PUGIXML_NO_EXCEPTIONS "" ON)
     add_subdirectory(pugixml)
 endif()
 
@@ -246,6 +259,20 @@ if (WIN32)
 add_subdirectory(ext-wepoll)
 endif()
 
+if (NOT TARGET fdk-aac)
+add_subdirectory(aacdec)
+endif()
+
 #nlohmann json 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(json)
+
+# miniz
+add_subdirectory(miniz)
+
+# cli11
+if (NOT TARGET CLI11::CLI11)
+    set(CLI11_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    set(CLI11_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    add_subdirectory(CLI11)
+endif()

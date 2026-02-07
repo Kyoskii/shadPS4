@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: Copyright 2023 Citra Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024-2026 shadPS4 Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -70,17 +71,22 @@ enum class Class : u8 {
     Lib_Http2,               ///< The LibSceHttp2 implementation.
     Lib_SysModule,           ///< The LibSceSysModule implementation
     Lib_NpCommon,            ///< The LibSceNpCommon implementation
+    Lib_NpCommerce,          ///< The LibSceNpCommerce implementation
     Lib_NpAuth,              ///< The LibSceNpAuth implementation
     Lib_NpManager,           ///< The LibSceNpManager implementation
+    Lib_NpMatching2,         ///< The LibSceNpMatching2 implementation
     Lib_NpScore,             ///< The LibSceNpScore implementation
     Lib_NpTrophy,            ///< The LibSceNpTrophy implementation
+    Lib_NpTus,               ///< The LibSceNpTus implementation
     Lib_NpWebApi,            ///< The LibSceWebApi implementation
+    Lib_NpWebApi2,           ///< The LibSceWebApi2 implementation
     Lib_NpProfileDialog,     ///< The LibSceNpProfileDialog implementation
     Lib_NpSnsFacebookDialog, ///< The LibSceNpSnsFacebookDialog implementation
     Lib_Screenshot,          ///< The LibSceScreenshot implementation
     Lib_LibCInternal,        ///< The LibCInternal implementation.
     Lib_AppContent,          ///< The LibSceAppContent implementation.
     Lib_Rtc,                 ///< The LibSceRtc implementation.
+    Lib_Rudp,                ///< The LibSceRudp implementation.
     Lib_DiscMap,             ///< The LibSceDiscMap implementation.
     Lib_Png,                 ///< The LibScePng implementation.
     Lib_Jpeg,                ///< The LibSceJpeg implementation.
@@ -106,6 +112,7 @@ enum class Class : u8 {
     Lib_Mouse,               ///< The LibSceMouse implementation
     Lib_WebBrowserDialog,    ///< The LibSceWebBrowserDialog implementation
     Lib_NpParty,             ///< The LibSceNpParty implementation
+    Lib_NpPartner,           ///< The LibSceNpPartner implementation
     Lib_Zlib,                ///< The LibSceZlib implementation.
     Lib_Hmd,                 ///< The LibSceHmd implementation.
     Lib_HmdSetupDialog,      ///< The LibSceHmdSetupDialog implementation.
@@ -114,6 +121,8 @@ enum class Class : u8 {
     Lib_CompanionHttpd,      ///< The LibCompanionHttpd implementation.
     Lib_CompanionUtil,       ///< The LibCompanionUtil implementation.
     Lib_VrTracker,           ///< The LibSceVrTracker implementation.
+    Lib_Font,                ///< The libSceFont implementation.
+    Lib_FontFt,              ///< The libSceFontFt implementation.
     Frontend,                ///< Emulator UI
     Render,                  ///< Video Core
     Render_Vulkan,           ///< Vulkan backend
@@ -122,6 +131,7 @@ enum class Class : u8 {
     Loader,                  ///< ROM loader
     Input,                   ///< Input emulation
     Tty,                     ///< Debug output from emu
+    KeyManager,              ///< Key management system
     Count                    ///< Total number of logging classes
 };
 

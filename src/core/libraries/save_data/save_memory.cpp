@@ -59,7 +59,7 @@ void PersistMemory(u32 slot_id, bool lock) {
     while (n++ < 10) {
         try {
             IOFile f;
-            int r = f.Open(memoryPath, Common::FS::FileAccessMode::Write);
+            int r = f.Open(memoryPath, Common::FS::FileAccessMode::Create);
             if (f.IsOpen()) {
                 f.WriteRaw<u8>(data.memory_cache.data(), data.memory_cache.size());
                 f.Close();
@@ -88,8 +88,8 @@ std::string GetSaveDir(u32 slot_id) {
     return dir;
 }
 
-std::filesystem::path GetSavePath(OrbisUserServiceUserId user_id, u32 slot_id,
-                                  std::string_view game_serial) {
+std::filesystem::path GetSavePath(Libraries::UserService::OrbisUserServiceUserId user_id,
+                                  u32 slot_id, std::string_view game_serial) {
     std::string dir(StandardDirnameSaveDataMemory);
     if (slot_id > 0) {
         dir += std::to_string(slot_id);
@@ -97,8 +97,8 @@ std::filesystem::path GetSavePath(OrbisUserServiceUserId user_id, u32 slot_id,
     return SaveInstance::MakeDirSavePath(user_id, game_serial, dir);
 }
 
-size_t SetupSaveMemory(OrbisUserServiceUserId user_id, u32 slot_id, std::string_view game_serial,
-                       size_t memory_size) {
+size_t SetupSaveMemory(Libraries::UserService::OrbisUserServiceUserId user_id, u32 slot_id,
+                       std::string_view game_serial, size_t memory_size) {
     std::lock_guard lck{g_slot_mtx};
 
     const auto save_dir = GetSavePath(user_id, slot_id, game_serial);
@@ -148,7 +148,7 @@ void SetIcon(u32 slot_id, void* buf, size_t buf_size) {
             fs::copy_file(src_icon, icon_path);
         }
     } else {
-        IOFile file(icon_path, Common::FS::FileAccessMode::Write);
+        IOFile file(icon_path, Common::FS::FileAccessMode::Create);
         file.WriteRaw<u8>(buf, buf_size);
         file.Close();
     }

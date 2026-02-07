@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2025 shadPS4 Emulator Project
+// SPDX-FileCopyrightText: Copyright 2025-2026 shadPS4 Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -94,7 +94,11 @@ void setVkGuestMarkersEnabled(bool enable, bool is_game_specific = false);
 bool getEnableDiscordRPC();
 void setEnableDiscordRPC(bool enable);
 bool isRdocEnabled();
+bool isPipelineCacheEnabled();
+bool isPipelineCacheArchived();
 void setRdocEnabled(bool enable, bool is_game_specific = false);
+void setPipelineCacheEnabled(bool enable, bool is_game_specific = false);
+void setPipelineCacheArchived(bool enable, bool is_game_specific = false);
 std::string getLogType();
 void setLogType(const std::string& type, bool is_game_specific = false);
 std::string getLogFilter();
@@ -121,7 +125,8 @@ int getSpecialPadClass();
 bool getPSNSignedIn();
 void setPSNSignedIn(bool sign, bool is_game_specific = false);
 bool patchShaders(); // no set
-bool fpsColor();     // no set
+bool getShowFpsCounter();
+void setShowFpsCounter(bool enable, bool is_game_specific = false);
 bool isNeoModeConsole();
 void setNeoMode(bool enable, bool is_game_specific = false);
 bool isDevKitConsole();
@@ -148,8 +153,6 @@ void setConnectedToNetwork(bool enable, bool is_game_specific = false);
 void setUserName(const std::string& name, bool is_game_specific = false);
 std::filesystem::path getSysModulesPath();
 void setSysModulesPath(const std::filesystem::path& path);
-bool getLoadAutoPatches();
-void setLoadAutoPatches(bool enable);
 
 enum UsbBackendType : int { Real, SkylandersPortal, InfinityBase, DimensionsToypad };
 int getUsbDeviceBackend();
@@ -180,6 +183,6 @@ std::filesystem::path getAddonInstallDir();
 void setDefaultValues(bool is_game_specific = false);
 
 constexpr std::string_view GetDefaultGlobalConfig();
-std::filesystem::path GetFoolproofInputConfigFile(const std::string& game_id = "");
+std::filesystem::path GetInputConfigFile(const std::string& game_id = "");
 
 }; // namespace Config
