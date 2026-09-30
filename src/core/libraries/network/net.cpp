@@ -11,12 +11,14 @@
 #include <fcntl.h>
 #endif
 
+#include <chrono>
 #include <core/libraries/kernel/kernel.h>
 #include <magic_enum/magic_enum.hpp>
 #include "common/assert.h"
 #include "common/error.h"
 #include "common/logging/log.h"
 #include "common/singleton.h"
+#include "common/thread.h"
 #include "core/file_sys/fs.h"
 #include "core/libraries/error_codes.h"
 #include "core/libraries/libs.h"
@@ -1007,6 +1009,29 @@ int PS4_SYSV_ABI sceNetEpollWait(OrbisNetId epollid, OrbisNetEpollEvent* events,
 
     int sockets_waited_on = (epoll->events.size() - epoll->async_resolutions.size()) > 0;
 
+    if (!sockets_waited_on && epoll->async_resolutions.empty() && timeout != 0) {
+        using namespace std::chrono;
+        const auto deadline = steady_clock::now() + microseconds(std::max(timeout, 0));
+        for (;;) {
+            auto slice = duration_cast<microseconds>(10ms);
+            if (timeout > 0) {
+                const auto left = duration_cast<microseconds>(deadline - steady_clock::now());
+                if (left <= 0us) {
+                    return 0;
+                }
+                slice = std::min(slice, left);
+            }
+            if (!Common::AccurateSleep(slice, nullptr, true)) {
+                *sceNetErrnoLoc() = ORBIS_NET_EINTR;
+                return ORBIS_NET_ERROR_EINTR;
+            }
+            sockets_waited_on = epoll->events.size() > epoll->async_resolutions.size();
+            if (sockets_waited_on || !epoll->async_resolutions.empty()) {
+                break;
+            }
+        }
+    }
+
     std::vector<epoll_event> native_events{static_cast<size_t>(maxevents)};
     int result = ORBIS_OK;
     if (sockets_waited_on) {
@@ -1016,8 +1041,9 @@ int PS4_SYSV_ABI sceNetEpollWait(OrbisNetId epollid, OrbisNetEpollEvent* events,
         result = epoll_pwait2(epoll->epoll_fd, native_events.data(), maxevents,
                               timeout < 0 ? nullptr : &epoll_timeout, nullptr);
 #else
-        result = epoll_wait(epoll->epoll_fd, native_events.data(), maxevents,
-                            timeout < 0 ? timeout : timeout / 1000);
+        result = epoll_wait(
+            epoll->epoll_fd, native_events.data(), maxevents,
+            timeout < 0 ? timeout : static_cast<int>((static_cast<s64>(timeout) + 999) / 1000));
 #endif
     }
 
